@@ -3,5 +3,5 @@
 ![alt text](https://github.com/Raze97/Telegram-Survey-Bot-Logos/blob/master/logo/logo_text.png)
 
 ## Used Libraries
-- [python-telegram-bot](https://github.com/python-telegram-bot/python-telegram-bot)  
-- [apscheduler](https://github.com/agronholm/apscheduler)  
+-   [python-telegram-bot](https://github.com/python-telegram-bot/python-telegram-bot)  
+-   [apscheduler](https://github.com/agronholm/apscheduler)  
