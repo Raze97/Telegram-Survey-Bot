@@ -22,4 +22,4 @@ For a detailed description about configuration and execution of the script, have
 -   [python-telegram-bot](https://github.com/python-telegram-bot/python-telegram-bot)  
 -   [apscheduler](https://github.com/agronholm/apscheduler)  
 
-> Developed by Marcel Killinger, supervised by Michael Barthelmäs and Johannes Keller from [Dept. Social Psychology Ulm University](https://www.uni-ulm.de/en/in/psy-soz/)
+> Developed by Marcel Killinger and Michael Barthelmäs,  supervised by Johannes Keller from [Dept. Social Psychology Ulm University](https://www.uni-ulm.de/en/in/psy-soz/)
