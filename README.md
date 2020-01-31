@@ -3,7 +3,7 @@
 
 ![Logo](https://github.com/Raze97/Telegram-Survey-Bot-Logos/blob/master/logo/logo_text.png?raw=true)
 
-A [Telegram](https://telegram.org/) bot to present your experience sampling study surveys to your participants via their mobile device.
+A [Telegram](https://telegram.org/) bot to conduct your ambulatory assessment study by sending surveys to participants' smartphones.
 
 The bot script is written in Python and can be simply configured by a single JSON-file.
 
