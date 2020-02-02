@@ -1,0 +1,85 @@
+{
+    "api_token": "<Your telegram bot api token here>",
+    "surveyCommandEnabled": true,
+    "participantsEnterCondition": false,
+    "subscription_start_date": "2020-01-27 00:00",
+    "subscription_deadline": "2020-02-02 00:00",
+    "daily_dates": ["2020-01-23", "2020-01-24", "2020-01-25"],
+    "daily_times": [
+        ["12:18", "12:20", "10:52", "10:42", "16:45"],
+        ["10:00", "12:00"],
+        ["10:00"]
+    ],
+    "end_dates": ["2020-01-26", "2020-01-27"],
+    "end_times": [
+        ["08:00", "18:45"],
+        ["10:00", "11:20"]
+    ],
+    "useDayCalculation": true,
+    "dayCalculationSettings": {
+        "daily_SurveyDays": [1, 2, 5],
+        "end_SurveyDays": [7, 9]
+    },
+    "useTimeCalculation": true,
+    "timeCalculationSettings": {
+        "daily_DelayMinutesAfterWakeup": 30,
+        "daily_SurveysPerDay": 3,
+        "daily_DelayMinutesBetweenSurveys": 120,
+        "end_DelayMinutesAfterWakeup": 45,
+        "end_SurveysPerDay": 2,
+        "end_DelayMinutesBetweenSurveys": 90
+    },
+    "linkDeletionSettings": {
+        "start_DeleteLinkAtSubscriptionDeadline": true,
+        "start_DeleteLinkTimer": false,
+        "start_DeleteDelayMinutes": 240,
+        "daily_DeleteLinkAtNewLink": false,
+        "daily_DeleteLinkTimer": true,
+        "daily_DeleteDelayMinutes": 60,
+        "end_DeleteLinkAtNewLink": true,
+        "end_DeleteLinkTimer": false,
+        "end_DeleteDelayMinutes": 120
+    },
+    "randomTimeShiftSettings": {
+        "daily_RandomTimeShiftMinutes": 5,
+        "end_RandomTimeShiftMinutes": 0
+    },
+    "endSurveyReminderEnabled": true,
+    "endSurveyReminderDelayHours": 1,
+    "urls": {
+        "start_url": [
+            "https://www.yoursurveysite.de/start_cond1/",
+            "https://www.yoursurveysite.de/start_cond2/"
+        ],
+        "daily_url": [
+            "https://www.yoursurveysite.de/daily_cond1/",
+            "https://www.yoursurveysite.de/daily_cond2/"
+        ],
+        "end_url": [
+            ["https://www.yoursurveysite.de/end_cond1_link1/", "https://www.yoursurveysite.de/end_cond1_link2/"],
+            ["https://www.yoursurveysite.de/end_cond2_link1/", "https://www.yoursurveysite.de/end_cond2_link2/"]
+        ],
+        "end_url_distribution": "DAY"
+    },
+    "texts": {
+        "welcome": "Welcome to the survey bot.",
+        "subscribe": "You will get now reminders for the actual survey. Please fill out the start survey.",
+        "subscribe_early": "Sorry, the survey has not started yet.",
+        "subscribe_late": "Sorry, the survey has already started.",
+        "subscribe_already": "Sorry, you are already subscribed.",
+        "subscribe_wakeup_time": "Please tell me your wakeup time in the format",
+        "subscribe_condition": "Please enter your condition number",
+        "unsubscribe": "You will get no longer reminder for actual surveys.",
+        "daily_reminder": "Hi there, it is time for a daily survey.",
+        "end_reminder": "Hi, it is time for the end survey.",
+        "survey_reply": "Here is your survey link.",
+        "endSurveyReminder": "Hi, have you already participated the end survey?",
+        "endSurveyReminderYes": "Yes",
+        "endSurveyReminderNo": "No"
+    },
+    "help": {
+        "helpEnabled": true,
+        "help_text": "Here are all available commands:\n/subscribe - activates the reminder service\n/unsubscribe - deactivates the reminder service",
+        "surveyCommandHelp": "\n/survey - send you an daily survey link"
+    }
+}
