@@ -1,7 +1,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/871707ae18964ddf9ac22b6d90e2dc9a)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Raze97/Telegram-Survey-Bot&amp;utm_campaign=Badge_Grade)
 [![Actions Status](https://github.com/Raze97/Telegram-Survey-Bot/workflows/Python-build/badge.svg)](https://github.com/Raze97/Telegram-Survey-Bot/actions)
-
-[![GitHub release](https://img.shields.io/github/release/Naereen/StrapDown.js.svg)](https://GitHub.com/Raze97/Telegram-Survey-Bot/releases/)
+[![GitHub release](https://img.shields.io/github/v/release/Raze97/Telegram-Survey-Bot)](https://GitHub.com/Raze97/Telegram-Survey-Bot/releases/)
+[![Github all releases](https://img.shields.io/github/v/release/Raze97/Telegram-Survey-Bot/total)](https://GitHub.com/Raze97/Telegram-Survey-Bot/releases/)
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
 
 ![Logo](https://github.com/Raze97/Telegram-Survey-Bot-Logos/blob/master/logo/logo_text.png?raw=true)
