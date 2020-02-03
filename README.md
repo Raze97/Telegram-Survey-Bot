@@ -25,4 +25,12 @@ For a detailed description about configuration and execution of the script, have
 -   [python-telegram-bot](https://github.com/python-telegram-bot/python-telegram-bot)  
 -   [apscheduler](https://github.com/agronholm/apscheduler)  
 
+## Citation
+If you use our script, please cite it using the following information:
+
+Barthelmäs, M., Killinger, M., & Keller, J. (in prep.). Using a Telegram 
+Chatbot as Cost-Effective Software Infrastructure for Ambulatory 
+Assessment Studies via Smartphones without Restrictions Concerning the 
+Operating System.
+
 > Developed by Marcel Killinger and Michael Barthelmäs,  supervised by Johannes Keller from [Dept. Social Psychology Ulm University](https://www.uni-ulm.de/en/in/psy-soz/)
