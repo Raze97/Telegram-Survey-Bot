@@ -18,7 +18,7 @@ The bot script is written in Python, can be simply configured by a single JSON-f
 -   Assign different conditions to your participants
 -   Randomize your survey times
 
-For a detailed description about configuration and execution of the script, take a look at our [wiki](https://github.com/Raze97/Telegram-Survey-Bot/wiki).
+For a detailed description concerning the configuration and execution of the script, take a look at our [wiki](https://github.com/Raze97/Telegram-Survey-Bot/wiki).
 
 ## Used Libraries
 
