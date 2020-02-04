@@ -8,7 +8,7 @@
 
 A [Telegram](https://telegram.org/) bot to conduct your ambulatory assessment study by sending surveys to participants' smartphones.
 
-The bot script is written in Python and can be simply configured by a single JSON-file under Windows, MacOS and Linux.
+The bot script is written in Python, can be simply configured by a single JSON-file and runs under Windows, MacOS and Linux.
 
 ## Features
 
