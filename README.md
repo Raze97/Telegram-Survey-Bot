@@ -12,7 +12,7 @@ The bot script is written in Python, can be simply configured by a single JSON-f
 
 ## Features
 
--   Use fix dates and times for your surveys or use day calculation depending on the subscribe-day and time calculation depending on the wakeup time of your participants. You are free to combine these functionalities.
+-   Use fix dates and times for your surveys or use day calculation depending on the subscribe-day and time calculation depending on the wakeup time of your participants.
 -   Three types of links are available: start-, daily- and endlinks
 -   Decide how long your survey links are visible in the telegram chat
 -   Assign different conditions to your participants
