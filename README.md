@@ -26,6 +26,17 @@ For a detailed description concerning the configuration and execution of the scr
 -   [python-telegram-bot](https://github.com/python-telegram-bot/python-telegram-bot)  
 -   [apscheduler](https://github.com/agronholm/apscheduler)  
 
+## License
+Telegram Survey Bot is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Telegram Survey Bot is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
 ## Citation
 If you use our script, please cite it using the following information:
 
