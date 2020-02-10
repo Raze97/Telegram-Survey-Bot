@@ -27,6 +27,8 @@ For a detailed description concerning the configuration and execution of the scr
 -   [apscheduler](https://github.com/agronholm/apscheduler)  
 
 ## License
+Copyright: (c) 2020, Michael Barthelmäs, Marcel Killinger, Johannes Keller. GNU General Public License v3.0 (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 Telegram Survey Bot is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
