@@ -42,9 +42,6 @@ GNU General Public License for more details.
 ## Citation
 If you use our script, please cite it using the following information:
 
-Barthelmäs, M., Killinger, M., & Keller, J. (in prep.). Using a Telegram 
-Chatbot as Cost-Effective Software Infrastructure for Ambulatory 
-Assessment Studies via Smartphones without Restrictions Concerning the 
-Operating System.
+Barthelmäs, M., Killinger, M., & Keller, J. (2020). <i>Telegram-Survey-Bot (Version 1.0) [Computer software]</i>. Retrieved from https://github.com/Raze97/Telegram-Survey-Bot
 
 > Developed by Marcel Killinger and Michael Barthelmäs,  supervised by Johannes Keller from [Dept. Social Psychology Ulm University](https://www.uni-ulm.de/en/in/psy-soz/)
