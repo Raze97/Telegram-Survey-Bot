@@ -15,6 +15,7 @@
         ["08:00", "18:45"],
         ["10:00", "11:20"]
     ],
+    "useTimeZoneCalculation": true,
     "useDayCalculation": true,
     "dayCalculationSettings": {
         "daily_SurveyDays": [1, 2, 5],
@@ -69,6 +70,7 @@
         "subscribe_already": "Sorry, you are already subscribed.",
         "subscribe_wakeup_time": "Please tell me your wakeup time in the format",
         "subscribe_condition": "Please enter your condition number",
+        "subscribe_timezone": "Please tell me your current date and time in the format",
         "unsubscribe": "You will get no longer reminder for actual surveys.",
         "daily_reminder": "Hi there, it is time for a daily survey.",
         "end_reminder": "Hi, it is time for the end survey.",
