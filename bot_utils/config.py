@@ -130,6 +130,7 @@ class Texts(object):
     subscribe_already: str
     subscribe_wakeup_time: str
     subscribe_condition: str
+    subscribe_timezone: str
     unsubscribe: str
     daily_reminder: str
     end_reminder: str
@@ -146,6 +147,7 @@ class Texts(object):
                  subscribe_already: str,
                  subscribe_wakeup_time: str,
                  subscribe_condition: str,
+                 subscribe_timezone: str,
                  unsubscribe: str,
                  daily_reminder: str,
                  end_reminder: str,
@@ -161,6 +163,7 @@ class Texts(object):
         self.subscribe_already: str = subscribe_already
         self.subscribe_wakeup_time: str = subscribe_wakeup_time
         self.subscribe_condition: str = subscribe_condition
+        self.subscribe_timezone: str = subscribe_timezone
         self.unsubscribe: str = unsubscribe
         self.daily_reminder: str = daily_reminder
         self.end_reminder: str = end_reminder
@@ -193,6 +196,7 @@ class Config(object):
     daily_times: List[List[time]]
     end_dates: List[datetime]
     end_times: List[List[time]]
+    useTimeZoneCalculation: bool
     useDayCalculation: bool
     dayCalculationSettings: DayCalculationSettings
     useTimeCalculation: bool
@@ -215,6 +219,7 @@ class Config(object):
                  daily_times: List[List[str]],
                  end_dates: List[str],
                  end_times: List[List[str]],
+                 useTimeZoneCalculation: bool,
                  useDayCalculation: bool,
                  dayCalculationSettings: dict,
                  useTimeCalculation: bool,
@@ -238,6 +243,7 @@ class Config(object):
         self.end_dates: List[datetime] = [datetime.fromisoformat(date_str) for date_str in end_dates]
         self.end_times: List[List[time]] = \
             [[time.fromisoformat(time_str) for time_str in time_list] for time_list in end_times]
+        self.useTimeZoneCalculation: bool = useTimeZoneCalculation
         self.useDayCalculation: bool = useDayCalculation
         self.dayCalculationSettings: DayCalculationSettings = DayCalculationSettings(**dayCalculationSettings)
         self.useTimeCalculation: bool = useTimeCalculation
