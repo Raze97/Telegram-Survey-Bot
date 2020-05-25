@@ -187,7 +187,7 @@ class ScheduleUtil:
         :param condition: The condition
         :return: If all works are done, false when time calculation is activated
         """
-        if self.config.useTimeCalculation:
+        if self.config.useTimeCalculation or self.config.useTimeZoneCalculation:
             return False
         else:
             if not self.config.useDayCalculation:

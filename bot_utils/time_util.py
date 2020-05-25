@@ -173,3 +173,10 @@ class TimeUtil:
                 date += timedelta(minutes=time_settings.delay_minutes_between_surveys)
                 date_list.append(date)
         return date_list
+
+    @staticmethod
+    def get_time_offset(participant_datetime: datetime) -> int:
+        datetime_now = datetime.now().replace(second=0, microsecond=0)
+        timedelta_to_participant = datetime_now - participant_datetime
+
+        return 0
