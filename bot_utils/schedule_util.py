@@ -105,19 +105,21 @@ class ScheduleUtil:
         else:
             raise BotScheduleError("SUBSCRIBE surveys can not be scheduled.")
 
-        if not self.config.useDayCalculation and not self.config.useTimeCalculation:
-            datetime_list: List[datetime] = TimeUtil.generate_date_time_list(day_list,
-                                                                             time_list)
+        if not self.config.useTimeZoneCalculation:
+            if not self.config.useDayCalculation and not self.config.useTimeCalculation:
+                datetime_list: List[datetime] = TimeUtil.generate_date_time_list(day_list,
+                                                                                 time_list,
+                                                                                 0)
 
-            self.add_jobs_from_list(datetime_list, exec_function, survey_type)
+                self.add_jobs_from_list(datetime_list, exec_function, survey_type)
 
-        elif self.config.useDayCalculation and not self.config.useTimeCalculation:
-            date_list = TimeUtil.generate_date_list(self.config.subscription_start_date,
-                                                    self.config.subscription_deadline,
-                                                    survey_days,
-                                                    time_list)
+            elif self.config.useDayCalculation and not self.config.useTimeCalculation:
+                date_list = TimeUtil.generate_date_list(self.config.subscription_start_date,
+                                                        self.config.subscription_deadline,
+                                                        survey_days,
+                                                        time_list)
 
-            self.add_jobs_from_list(date_list, exec_function, survey_type)
+                self.add_jobs_from_list(date_list, exec_function, survey_type)
 
     def schedule_end_survey_reminder(self,
                                      exec_function: Callable,
@@ -162,9 +164,9 @@ class ScheduleUtil:
         :return: None
         """
         if survey_type == SurveyType.DAILY:
-            jitter = self.config.randomTimeShiftSettings.daily_RandomTimeShiftMinutes
+            jitter = self.config.randomTimeShiftSettings.daily_RandomTimeShiftMinutes * 60
         else:
-            jitter = self.config.randomTimeShiftSettings.end_RandomTimeShiftMinutes
+            jitter = self.config.randomTimeShiftSettings.end_RandomTimeShiftMinutes * 60
         job_id = date.strftime("%Y-%m-%d-%H:%M") + survey_type.name
         date_str = date.strftime("%Y-%m-%d-%H:%M")
         trigger = CronTrigger(year=date.year,
@@ -173,12 +175,12 @@ class ScheduleUtil:
                               hour=date.hour,
                               minute=date.minute,
                               jitter=jitter)
-        self.scheduler.add_job(exec_function,
+        job = self.scheduler.add_job(exec_function,
                                trigger=trigger,
                                args=[survey_type, job_id, date_str],
                                id=job_id)
 
-    def add_subscriber(self, chat_id: int, condition: int) -> bool:
+    def add_subscriber(self, chat_id: int, condition: int, exec_function: Callable = None) -> bool:
         """
         Adds a new subscriber if time calculation is not activated.
         All survey datetimes are calculated and entries in the database will be inserted.
@@ -187,22 +189,30 @@ class ScheduleUtil:
         :param condition: The condition
         :return: If all works are done, false when time calculation is activated
         """
-        if self.config.useTimeCalculation or self.config.useTimeZoneCalculation:
+        if self.config.useTimeCalculation:
             return False
         else:
+            offset = self.db_handler.get_time_offset(chat_id)
             if not self.config.useDayCalculation:
-                daily_list = TimeUtil.generate_date_time_list(self.config.daily_dates, self.config.daily_times)
+                daily_list: List[datetime] = TimeUtil.generate_date_time_list(self.config.daily_dates,
+                                                                              self.config.daily_times,
+                                                                              offset)
 
                 self.db_handler.insert_new_subscriber_entries(chat_id, daily_list, SurveyType.DAILY, condition)
 
                 end_list: List[datetime] = TimeUtil.generate_date_time_list(self.config.end_dates,
-                                                                            self.config.end_times)
+                                                                            self.config.end_times,
+                                                                            offset)
                 end_distribution_list: List[int] = self.calculate_end_distribution(end_list)
                 self.db_handler.insert_new_subscriber_entries(chat_id,
                                                               end_list,
                                                               SurveyType.END,
                                                               condition,
                                                               end_distribution_list=end_distribution_list)
+
+                if self.config.useTimeZoneCalculation and exec_function is not None:
+                    self.add_jobs_from_list(daily_list, exec_function, SurveyType.DAILY)
+                    self.add_jobs_from_list(end_list, exec_function, SurveyType.END)
 
                 return True
             else:

@@ -103,7 +103,9 @@ def init_handlers(dispatcher: Dispatcher) -> None:
         dispatcher.add_handler(CommandHandler("survey", send_survey))
     if config_handler.config.endSurveyReminderEnabled:
         dispatcher.add_handler(CallbackQueryHandler(handle_end_survey_reminder_callback))
-    if config_handler.config.useTimeCalculation or config_handler.config.participantsEnterCondition:
+    if config_handler.config.useTimeCalculation or \
+            config_handler.config.participantsEnterCondition or \
+            config_handler.config.useTimeZoneCalculation:
         states: Dict[int, List[Handler]] = {}
         if config_handler.config.useTimeZoneCalculation:
             regex_str = r"^\d{4}\.(0?[1-9]|1[012])\.(0?[1-9]|[12][0-9]|3[01])\-(0\d|1\d|2\d|\d):[0-5]\d$"
@@ -204,7 +206,9 @@ def subscribe(update: Update, context: CallbackContext) -> int:
         schedule_util.schedule_delete_message(delete_message, 1, chat_id, msg.message_id)
     else:
         condition = config_handler.get_condition()
-        if not config_handler.config.participantsEnterCondition and schedule_util.add_subscriber(chat_id, condition):
+        if not config_handler.config.participantsEnterCondition and \
+                not config_handler.config.useTimeZoneCalculation and \
+                schedule_util.add_subscriber(chat_id, condition):
             send_subscribe_message(context, chat_id, condition)
         else:
             if config_handler.config.useTimeZoneCalculation:
@@ -237,8 +241,27 @@ def error(update: Update, context: CallbackContext) -> None:
 
 def subscribe_timezone(update: Update, context: CallbackContext) -> int:
     chat_id = update.effective_chat.id
-    TimeUtil.get_time_offset(datetime.strptime(update.message.text, "%Y.%m.%d-%H:%M"))
-    return ConversationHandler.END
+    offset = TimeUtil.get_time_offset(datetime.strptime(update.message.text, "%Y.%m.%d-%H:%M"))
+    db_handler.insert_time_offset(chat_id, offset)
+    condition = config_handler.get_condition()
+    if not config_handler.config.participantsEnterCondition and \
+            schedule_util.add_subscriber(chat_id, condition, send_notification_broadcast):
+        send_subscribe_message(context, chat_id, condition)
+        return ConversationHandler.END
+    else:
+        if config_handler.config.useTimeCalculation:
+            text = config_handler.config.texts.subscribe_wakeup_time + " (HH:MM)"
+            msg = context.bot.sendMessage(chat_id=chat_id,
+                                          text=text)
+            db_handler.insert_message_id(chat_id, msg.message_id, SurveyType.SUBSCRIBE)
+            return TIME_STATE
+        else:
+            text = config_handler.config.texts.subscribe_condition + \
+                   " (0-%d)" % (config_handler.get_condition_count() - 1)
+            msg = context.bot.sendMessage(chat_id=chat_id,
+                                          text=text)
+            db_handler.insert_message_id(chat_id, msg.message_id, SurveyType.SUBSCRIBE)
+            return CONDITION_STATE
 
 
 def subscribe_wakeup_time(update: Update, context: CallbackContext) -> int:
@@ -322,7 +345,13 @@ def subscribe_wakeup_time_fallback(update: Update, context: CallbackContext) -> 
     chat_id = update.effective_chat.id
     db_handler.insert_message_id(chat_id, update.message.message_id, SurveyType.SUBSCRIBE)
     state_code = conversation_handler.conversations[(chat_id, chat_id)]
-    if state_code == TIME_STATE:
+    if state_code == TIMEZONE_STATE:
+        text = config_handler.config.texts.subscribe_timezone + " (YYYY.MM.DD-HH:MM)"
+        msg = context.bot.sendMessage(chat_id=chat_id,
+                                      text=text)
+        db_handler.insert_message_id(chat_id, msg.message_id, SurveyType.SUBSCRIBE)
+        return TIMEZONE_STATE
+    elif state_code == TIME_STATE:
         text = config_handler.config.texts.subscribe_wakeup_time + " (HH:MM)"
         msg = context.bot.sendMessage(chat_id=chat_id,
                                       text=text)

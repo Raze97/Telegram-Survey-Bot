@@ -21,13 +21,13 @@ import sqlite3
 from datetime import datetime
 from pathlib import Path
 from sqlite3 import Error, Connection
-from typing import List, Tuple
+from typing import List, Tuple, Any
 
 from bot_utils.bot_enums import SurveyType
-from bot_utils.sql_statements import CREATE_TABLE_MESSAGES, CREATE_TABLE_SUBSCRIBER, INSERT_MESSAGE, \
-    INSERT_SUBSCRIBER, SELECT_SUBSCRIBER_DATE_TYPE, SELECT_SUBSCRIBER_CHAT_ID, DELETE_MESSAGE, \
+from bot_utils.sql_statements import CREATE_TABLE_MESSAGES, CREATE_TABLE_SUBSCRIBER, CREATE_TABLE_OFFSETS, \
+    INSERT_MESSAGE, INSERT_SUBSCRIBER, SELECT_SUBSCRIBER_DATE_TYPE, SELECT_SUBSCRIBER_CHAT_ID, DELETE_MESSAGE, \
     DELETE_SUBSCRIBER, SELECT_MESSAGE_ID, SELECT_MESSAGE_TYPE, DELETE_MESSAGE_ID, DELETE_MESSAGE_TYPE, \
-    SELECT_SUBSCRIBER_ID_DATE, UPDATE_SUBSCRIBER
+    SELECT_SUBSCRIBER_ID_DATE, UPDATE_SUBSCRIBER, INSERT_OFFSET, SELECT_OFFSET, DELETE_OFFSET
 
 dbFile = Path("db/") / "userIdDb.db"
 
@@ -47,6 +47,7 @@ class DbHandler:
         if conn is not None:
             self.create_table(conn, CREATE_TABLE_SUBSCRIBER)
             self.create_table(conn, CREATE_TABLE_MESSAGES)
+            self.create_table(conn, CREATE_TABLE_OFFSETS)
             conn.close()
 
     @staticmethod
@@ -273,3 +274,24 @@ class DbHandler:
         connection.commit()
         connection.close()
         return rows
+
+    def insert_time_offset(self, chat_id: int, offset: int) -> None:
+        connection = self.create_connection()
+        cursor = connection.cursor()
+        cursor.execute(INSERT_OFFSET, (chat_id, offset))
+        connection.commit()
+        connection.close()
+
+    def get_time_offset(self, chat_id: int) -> int:
+        connection = self.create_connection()
+        cursor = connection.cursor()
+        cursor.execute(SELECT_OFFSET, (chat_id,))
+
+        rows = cursor.fetchall()
+
+        connection.close()
+
+        if not rows or not rows[0]:
+            return 0
+        else:
+            return rows[0][0]

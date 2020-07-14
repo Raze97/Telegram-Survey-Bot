@@ -1,27 +1,27 @@
 {
-    "api_token": "<Your telegram bot api token here>",
+    "api_token": "734199260:AAGlvocdGal6t8giTou-V4sFsvN566YHLxc",
     "surveyCommandEnabled": true,
     "participantsEnterCondition": false,
-    "subscription_start_date": "2020-01-27 00:00",
-    "subscription_deadline": "2020-02-02 00:00",
-    "daily_dates": ["2020-01-23", "2020-01-24", "2020-01-25"],
+    "subscription_start_date": "2020-05-19 00:00",
+    "subscription_deadline": "2020-06-29 00:00",
+    "daily_dates": ["2020-08-23", "2020-08-24", "2020-08-25"],
     "daily_times": [
         ["12:18", "12:20", "10:52", "10:42", "16:45"],
         ["10:00", "12:00"],
         ["10:00"]
     ],
-    "end_dates": ["2020-01-26", "2020-01-27"],
+    "end_dates": ["2020-08-26", "2020-08-27"],
     "end_times": [
         ["08:00", "18:45"],
         ["10:00", "11:20"]
     ],
     "useTimeZoneCalculation": true,
-    "useDayCalculation": true,
+    "useDayCalculation": false,
     "dayCalculationSettings": {
         "daily_SurveyDays": [1, 2, 5],
         "end_SurveyDays": [7, 9]
     },
-    "useTimeCalculation": true,
+    "useTimeCalculation": false,
     "timeCalculationSettings": {
         "daily_DelayMinutesAfterWakeup": 30,
         "daily_SurveysPerDay": 3,

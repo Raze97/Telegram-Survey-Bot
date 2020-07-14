@@ -22,6 +22,8 @@ from typing import List, Union
 
 from bot_utils.bot_util_types import TimeSettings
 
+FIVE_MINUTES_SECONDS = 300
+
 
 class TimeUtil:
     """
@@ -54,6 +56,11 @@ class TimeUtil:
         return datetime(date.year, date.month, date.day, time.hour, time.minute)
 
     @staticmethod
+    def apply_time_offset(date_time: datetime, offset: int) -> datetime:
+        date_time += timedelta(seconds=offset)
+        return date_time
+
+    @staticmethod
     def get_date_time_in(start_time: datetime = None, hours=0, minutes=0, seconds=0) -> datetime:
         """
         Calculates the datetime in a specific future from a specific time-point.
@@ -70,7 +77,7 @@ class TimeUtil:
         return start_time
 
     @staticmethod
-    def generate_date_time_list(dates: List[datetime], times: List[List[Time]]) -> List[datetime]:
+    def generate_date_time_list(dates: List[datetime], times: List[List[Time]], offset: int) -> List[datetime]:
         """
         Generates a list of datetime instances from a list of date-strings and a list of time-strings.
 
@@ -82,6 +89,8 @@ class TimeUtil:
         for i, date in enumerate(dates):
             for time in times[i]:
                 date_time: datetime = TimeUtil.get_date_time(date, time)
+                if offset != 0:
+                    date_time = TimeUtil.apply_time_offset(date_time, offset)
                 dt_list.append(date_time)
         return dt_list
 
@@ -177,6 +186,14 @@ class TimeUtil:
     @staticmethod
     def get_time_offset(participant_datetime: datetime) -> int:
         datetime_now = datetime.now().replace(second=0, microsecond=0)
-        timedelta_to_participant = datetime_now - participant_datetime
+        if datetime_now < participant_datetime:
+            timedelta_to_participant: timedelta = participant_datetime - datetime_now
+            timedelta_seconds = timedelta_to_participant.seconds
+        else:
+            timedelta_to_participant: timedelta = datetime_now - participant_datetime
+            timedelta_seconds = -timedelta_to_participant.seconds
 
-        return 0
+        if -FIVE_MINUTES_SECONDS <= timedelta_seconds <= FIVE_MINUTES_SECONDS:
+            return 0
+        else:
+            return timedelta_seconds
