@@ -94,17 +94,19 @@ class ConfigValidator:
                                   "dates in 'dayCalculationSettings.end_SurveyDays'.")
         if config.useTimeCalculation:
             if config.timeCalculationSettings.daily_DelayMinutesAfterWakeup <= 0:
-                error_list.append("'timeCalcualtaionSettings.daily_DelayMinutesAfterWakeup' must be greater than 0")
+                error_list.append("'timeCalculationSettings.daily_DelayMinutesAfterWakeup' must be greater than 0")
             if config.timeCalculationSettings.daily_SurveysPerDay <= 0:
-                error_list.append("'timeCalcualtaionSettings.daily_SurveysPerDay' must be greater than 0")
-            if config.timeCalculationSettings.daily_DelayMinutesBetweenSurveys <= 0:
-                error_list.append("'timeCalcualtaionSettings.daily_DelayMinutesBetweenSuveys' must be greater than 0")
+                error_list.append("'timeCalculationSettings.daily_SurveysPerDay' must be greater than 0")
+            if not config.timeCalculationSettings.daily_SurveysPerDay == 1 and \
+                    config.timeCalculationSettings.daily_DelayMinutesBetweenSurveys <= 0:
+                error_list.append("'timeCalculationSettings.daily_DelayMinutesBetweenSurveys' must be greater than 0")
             if config.timeCalculationSettings.end_DelayMinutesAfterWakeup <= 0:
-                error_list.append("'timeCalcualtaionSettings.end_DelayMinutesAfterWakeup' must be greater than 0")
-            if config.timeCalculationSettings.end_SurveysPerDay <= 0:
-                error_list.append("'timeCalcualtaionSettings.end_SurveysPerDay' must be greater than 0")
-            if config.timeCalculationSettings.end_DelayMinutesBetweenSurveys <= 0:
-                error_list.append("'timeCalcualtaionSettings.end_DelayMinutesBetweenSuveys' must be greater than 0")
+                error_list.append("'timeCalculationSettings.end_DelayMinutesAfterWakeup' must be greater than 0")
+            if config.timeCalculationSettings.end_SurveysPerDay < 0:
+                error_list.append("'timeCalculationSettings.end_SurveysPerDay' must be greater or equal than 0")
+            if not (0 <= config.timeCalculationSettings.end_SurveysPerDay <= 1) and \
+                    config.timeCalculationSettings.end_DelayMinutesBetweenSurveys <= 0:
+                error_list.append("'timeCalculationSettings.end_DelayMinutesBetweenSurveys' must be greater than 0")
         return error_list
 
     @staticmethod

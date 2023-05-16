@@ -18,12 +18,22 @@ You should have received a copy of the GNU General Public License
 along with Telegram Survey Bot.  If not, see <http://www.gnu.org/licenses/>.
 """
 from datetime import time
-from typing import List
+from typing import List, Callable
 
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 
 from bot_utils.bot_enums import SurveyType
 from bot_utils.config_handler import ConfigHandler
+
+
+def destruct_tuple(f: Callable) -> Callable:
+    """
+    Helper-function to use lamda-functions on lists of tuples.
+
+    :param f: lamda function
+    :return: lambda function
+    """
+    return lambda args: f(*args)
 
 
 class TimeSettings(object):

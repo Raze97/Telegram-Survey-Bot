@@ -21,6 +21,15 @@ The bot script is written in Python, can be simply configured by a single JSON-f
 
 For a detailed description concerning the configuration and execution of the script, take a look at our [wiki](https://github.com/Raze97/Telegram-Survey-Bot/wiki).
 
+## Update 2.0 out now
+
+- Timezone
+- Emergency start
+- log files
+- Code optimation
+- bug fixes
+
+
 ## Used Libraries
 
 -   [python-telegram-bot](https://github.com/python-telegram-bot/python-telegram-bot)  

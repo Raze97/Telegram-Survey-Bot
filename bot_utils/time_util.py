@@ -20,7 +20,7 @@ along with Telegram Survey Bot.  If not, see <http://www.gnu.org/licenses/>.
 from datetime import datetime, timedelta, time as Time
 from typing import List, Union
 
-from bot_utils.bot_util_types import TimeSettings
+from bot_utils.bot_utils import TimeSettings
 
 FIVE_MINUTES_SECONDS = 300
 
@@ -33,7 +33,7 @@ class TimeUtil:
     @staticmethod
     def get_time_from_str(time_str: str) -> Time:
         """
-        Convers an string with the format "HH:MM" to a time instance
+        Converts an string with the format "HH:MM" to a time instance
 
         :param time_str: The time string
         :return: The time instance
@@ -47,7 +47,7 @@ class TimeUtil:
     def get_date_time(date: datetime, time: Time) -> datetime:
         """
         Combines a datetime and a time instance to one datetime instance.
-        Therefor the time from the time instance and the year, month and day values from the date are used.
+        Therefore the time from the time instance and the year, month and day values from the date are used.
 
         :param date: The date
         :param time: The time
@@ -57,6 +57,13 @@ class TimeUtil:
 
     @staticmethod
     def apply_time_offset(date_time: datetime, offset: int) -> datetime:
+        """
+        Applies the time zone offset to the given datetime object.
+
+        :param date_time: the date time object
+        :param offset: the time zone offset
+        :return: the updated datetime
+        """
         date_time += timedelta(seconds=offset)
         return date_time
 
@@ -77,50 +84,70 @@ class TimeUtil:
         return start_time
 
     @staticmethod
-    def generate_date_time_list(dates: List[datetime], times: List[List[Time]], offset: int) -> List[datetime]:
+    def generate_date_list(day_list: List[int]) -> List[datetime]:
+        """
+        Generates a date list from a given integer list.
+
+        :param day_list: the integer list
+        :return: the datetime list
+        """
+        date_list: List[datetime] = []
+        today: datetime = datetime.now()
+        for day_delta in day_list:
+            date = today + timedelta(days=day_delta)
+            date_list.append(date)
+        return date_list
+
+    @staticmethod
+    def generate_time_list(day_count: int, time_settings: TimeSettings) -> List[List[Time]]:
+        """
+        Generates a list of time list depending on the day count and the time settings.
+
+        :param day_count: the day count
+        :param time_settings: the time settings
+        :return: the list of time lists
+        """
+        times_list: List[Time] = []
+        time_var: Time = time_settings.wakeup_time
+        for i in range(time_settings.survey_count):
+            if i == 0:
+                time_var += timedelta(minutes=time_settings.delay_minutes_after_wakeup)
+                times_list.append(time_var)
+            else:
+                time_var += timedelta(minutes=time_settings.delay_minutes_between_surveys)
+                times_list.append(time_var)
+        return [times_list] * day_count
+
+    @staticmethod
+    def generate_date_time_list(dates: List[datetime],
+                                times: Union[List[List[Time]], TimeSettings],
+                                offset: int = 0) -> List[datetime]:
         """
         Generates a list of datetime instances from a list of date-strings and a list of time-strings.
 
         :param dates: the list of date-strings
         :param times: the list of time-strings
+        :param offset: the time offset
         :return: the list of datetime instances
         """
         dt_list: List[datetime] = []
         for i, date in enumerate(dates):
-            for time in times[i]:
-                date_time: datetime = TimeUtil.get_date_time(date, time)
-                if offset != 0:
-                    date_time = TimeUtil.apply_time_offset(date_time, offset)
-                dt_list.append(date_time)
+            if isinstance(times, TimeSettings):
+                time_var: datetime = TimeUtil.get_date_time(date, times.wakeup_time)
+                for j in range(times.survey_count):
+                    if j == 0:
+                        time_var += timedelta(minutes=times.delay_minutes_after_wakeup)
+                        dt_list.append(time_var)
+                    else:
+                        time_var += timedelta(minutes=times.delay_minutes_between_surveys)
+                        dt_list.append(time_var)
+            else:
+                for time in times[i]:
+                    date_time: datetime = TimeUtil.get_date_time(date, time)
+                    dt_list.append(date_time)
+        if offset != 0:
+            dt_list = list(map(lambda dt: TimeUtil.apply_time_offset(dt, offset), dt_list))
         return dt_list
-
-    @staticmethod
-    def generate_date_list(subscription_start_date: datetime,
-                           subscription_deadline: datetime,
-                           day_list: List[int],
-                           time_list: List[List[Time]]) -> List[datetime]:
-        """
-
-        :param subscription_start_date:
-        :param subscription_deadline:
-        :param day_list:
-        :param time_list:
-        :return:
-        """
-        date_list: List[datetime] = []
-
-        for i, times in enumerate(time_list):
-            first_date = subscription_start_date + timedelta(days=day_list[i])
-            last_date = subscription_deadline + timedelta(days=day_list[i])
-            while first_date <= last_date:
-                for time_str in times:
-                    date_time = TimeUtil.get_date_time(first_date, time_str)
-                    date_list.append(date_time)
-                first_date += timedelta(days=1)
-
-        date_list = list(set(date_list))
-        date_list.sort()
-        return date_list
 
     @staticmethod
     def generate_date_list_for_subscriber(day_list: List[datetime],
@@ -185,6 +212,12 @@ class TimeUtil:
 
     @staticmethod
     def get_time_offset(participant_datetime: datetime) -> int:
+        """
+        Calculates the time zone offset with the given datetime.
+
+        :param participant_datetime: the datetime of the participant
+        :return: the time zone offset (int)
+        """
         datetime_now = datetime.now().replace(second=0, microsecond=0)
         if datetime_now < participant_datetime:
             timedelta_to_participant: timedelta = participant_datetime - datetime_now

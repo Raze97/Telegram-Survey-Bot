@@ -45,8 +45,9 @@ class ConfigHandler(object):
 
     def get_condition_count(self) -> int:
         """
+        Returns the count of conditions, by counting the numbers of start urls in the config.
 
-        :return:
+        :return: count of conditions (int)
         """
         return len(self.config.urls.start_url)
 
